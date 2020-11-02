@@ -1,6 +1,41 @@
 <template>
   <div class="dashboard">
     <v-container class="my-5">
+  
+      <v-layout row class="mb-3">
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              text
+              color="grey"
+              @click="sortBy('title')"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon small left>mdi-folder</v-icon>
+              <span class="caption text-lowercase">By project name</span>
+            </v-btn>
+          </template>
+          <span>Sort project by project</span>
+        </v-tooltip>
+
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              text
+              color="grey"
+              @click="sortBy('person')"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon small left>mdi-account</v-icon>
+              <span class="caption text-lowercase">By person name</span>
+            </v-btn>
+          </template>
+          <span>Sort by project by person</span>
+        </v-tooltip>
+      </v-layout>
+
       <v-card flat v-for="project in projects" :key="project.title" link>
         <v-layout row wrap :class="`pa-3 project ${project.status}`">
           <v-flex xs12 md6>
@@ -17,9 +52,11 @@
           </v-flex>
           <v-flex xs6 sm4 md2>
             <div class="text-end mr-10" id="chips-container">
-              <v-chip small :class="`${project.status} white--text caption my-2`">{{
-                project.status
-              }}</v-chip>
+              <v-chip
+                small
+                :class="`${project.status} white--text caption my-2`"
+                >{{ project.status }}</v-chip
+              >
             </div>
           </v-flex>
         </v-layout>
@@ -66,6 +103,11 @@ export default {
             '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."',
         },
       ],
+      method: {
+        sortBy(prop) {
+          this.projects.sort((a, b) => (a[prop] < b[prop] ? -1 : 1));
+        },
+      },
     };
   },
 };
