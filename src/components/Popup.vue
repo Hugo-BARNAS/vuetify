@@ -13,17 +13,25 @@
         </v-card-title>
         <v-divider></v-divider>
         <v-card-text>
-          <v-form class="px-3">
+          <v-form class="px-3"
+            ref="form"
+            v-model="valid"
+            lazy-validation
+          >
             <v-text-field
               name="Title"
               label="Title"
               id="id"
               v-model="title"
+              :counter="50"
+              :rules="titleRules"
               prepend-icon="mdi-folder"
             ></v-text-field>
             <v-textarea
               label="Information"
               v-model="content"
+              :rules="contentRules"
+              :counter="50"
               prepend-icon="mdi-pencil"
             ></v-textarea>
             <v-menu offset-y>
@@ -45,6 +53,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
+            :disabled="!valid"
             color="primary"
             text
             @click="
@@ -62,18 +71,38 @@
 <script>
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
+import db from '@/fb'
 export default {
   data() {
     return {
       dialog: false,
       title: "",
-      content: "",
-      due: ""
+      content:"",
+      due: "",
+      valid: true,
+      titleRules: [
+        v => !!v || 'A title is required', 
+        v => (v && v.length >= 3) || 'Minimum length is characters'
+      ],
+      
+      contentRules: [
+        v => !!v || 'Info is required',
+         v => (v && v.length >= 3) || 'Minimum length is characters'
+      ],
     };
   },
   methods: {
     submit() {
-      console.log(this.title, this.content);
+      if(this.$refs.form.validate()){
+        const project = {
+          title: this.title,
+          content: this.content,
+          due: format(parseISO(this.due), 'do MMM yyyy'),
+          person: 'Hugo BARNAS',
+          status: 'ongoing'
+        }
+        db.collection('projects').add(project).then(() => console.log("added to db!"))
+      }
     },
   },
   computed: {
