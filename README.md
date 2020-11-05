@@ -42,9 +42,10 @@
 * Create a vue.js project
 * Using component, props, v-on, v-bind, v-for
 * Using $emit
+* Using Vuetify
  
 ## Status:
-Contact_list_V1 is finished
+This project is finished
 
 ## Contact:
 * Created by Hugo BARNAS
