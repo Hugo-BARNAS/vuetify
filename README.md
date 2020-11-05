@@ -3,11 +3,7 @@
 ![](https://img.shields.io/badge/Node.js-inactive?logo=Node.js&color=brightgreen)
 ![](https://img.shields.io/badge/Bootstrap-blueviolet?logo=Bootstrap&color=blueviolet)
 ![](https://img.shields.io/badge/Vue.js?logo=Vue.js&color=green)
-
 ![](https://img.shields.io/badge/vuex-made%20in-green)
-![](https://img.shields.io/badge/JavaScript-inactive?logo=JavaScript)
-![](https://img.shields.io/badge/Node.js-inactive?logo=Node.js&color=brightgreen)
-![](https://img.shields.io/badge/Vue.js?logo=Vue.js&color=green)
 ![](https://img.shields.io/badge/Firebase-inactive?logo=Firebase&color=yellow)
 
 <p>
