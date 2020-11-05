@@ -15,7 +15,6 @@
 <img src="https://user-images.githubusercontent.com/57058997/96035390-44937e00-0e63-11eb-98ea-7cd329ae927f.png" height="50">
 <img src="https://user-images.githubusercontent.com/57058997/96006114-6e39ae80-0e3d-11eb-8519-5edda4aeac1b.png" height="50">
 <img src="https://user-images.githubusercontent.com/57058997/96373388-68f5a000-116c-11eb-9aa2-49a11ac04a96.png" height="50">
-<img src="https://img.shields.io/badge/vue.router-green.svg" alt="vue-router">
 <img src="https://user-images.githubusercontent.com/57058997/96035761-c683a700-0e63-11eb-99f8-e125caf76368.png" height="50">
 </p>
 
