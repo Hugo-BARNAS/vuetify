@@ -1,7 +1,6 @@
 <template>
   <div class="dashboard">
     <v-container class="my-5">
-  
       <v-layout row class="mb-3">
         <v-tooltip top>
           <template v-slot:activator="{ on, attrs }">
@@ -66,50 +65,65 @@
   </div>
 </template>
 <script>
+import db from '../fb';
 export default {
   data() {
     return {
       projects: [
-        {
-          title: "Design a website",
-          person: "Hugo BARNAS",
-          due: "1st Jan 2020",
-          status: "ongoing",
-          content:
-            '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."',
-        },
-        {
-          title: "Code up the homepage",
-          person: "Hugo BARNAS",
-          due: "10th Jan 2020",
-          status: "complete",
-          content:
-            '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."',
-        },
-        {
-          title: "Design video thumbnails",
-          person: "Chun li",
-          due: "1st Jan 2020",
-          status: "complete",
-          content:
-            '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."',
-        },
-        {
-          title: "Create a communauty forum",
-          person: "Margaux",
-          due: "20th oct 2020",
-          status: "overdue",
-          content:
-            '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."',
-        },
+        // {
+        //   title: "Design a website",
+        //   person: "Hugo BARNAS",
+        //   due: "1st Jan 2020",
+        //   status: "ongoing",
+        //   content:
+        //     '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."',
+        // },
+        // {
+        //   title: "Code up the homepage",
+        //   person: "Hugo BARNAS",
+        //   due: "10th Jan 2020",
+        //   status: "complete",
+        //   content:
+        //     '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."',
+        // },
+        // {
+        //   title: "Design video thumbnails",
+        //   person: "Chun li",
+        //   due: "1st Jan 2020",
+        //   status: "complete",
+        //   content:
+        //     '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."',
+        // },
+        // {
+        //   title: "Create a communauty forum",
+        //   person: "Margaux",
+        //   due: "20th oct 2020",
+        //   status: "overdue",
+        //   content:
+        //     '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."',
+        // },
       ],
-      method: {
-        sortBy(prop) {
-          this.projects.sort((a, b) => (a[prop] < b[prop] ? -1 : 1));
-        },
-      },
     };
   },
+  methods: {
+    sortBy(prop) {
+      this.projects.sort((a, b) => (a[prop] < b[prop] ? -1 : 1));
+        },
+      },
+  created(){
+        db.collection('projects').onSnapshot(res => {
+          const changes = res.docChanges();
+          changes.forEach(change => {
+            if(change.type === "added"){
+              this.projects.push({
+                ...change.doc.data(),
+                id: change.doc.id
+              })
+            }
+          });
+        })
+      }
+  
 };
 </script>
 <style scoped>
