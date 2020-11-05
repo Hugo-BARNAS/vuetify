@@ -32,8 +32,8 @@
 > Vuetify -
 > VueRouter
 
-## Video:
-
+## Demo:
+![ezgif com-gif-maker (7)](https://user-images.githubusercontent.com/57058997/98242364-a7f96300-1f6c-11eb-9cc6-66930f4f8ed8.gif)
 
 ## What I leaned and practiced :
 * JavaScript
