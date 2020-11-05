@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <v-dialog v-model="dialog" width="500">
+    <v-dialog v-model="dialog" width="500px">
       <template v-slot:activator="{ on, attrs }">
         <v-btn color="red lighten-2" dark v-bind="attrs" v-on="on">
           Add a project
@@ -53,10 +53,12 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
-            :disabled="!valid"
-            color="primary"
+            class="success white--text mx-0 mt-3"
+            :disabled="loading"
+            :loading="loading"
             text
             @click="
+              loader = 'loading';
               dialog = false;
               submit()"
           >
@@ -75,6 +77,8 @@ import db from '@/fb'
 export default {
   data() {
     return {
+      loader: null,
+      loading:false,
       dialog: false,
       title: "",
       content:"",
@@ -94,6 +98,7 @@ export default {
   methods: {
     submit() {
       if(this.$refs.form.validate()){
+        this.loading = true;
         const project = {
           title: this.title,
           content: this.content,
@@ -101,7 +106,12 @@ export default {
           person: 'Hugo BARNAS',
           status: 'ongoing'
         }
-        db.collection('projects').add(project).then(() => console.log("added to db!"))
+        db.collection('projects').add(project).then(() => {
+          this.loading = false;
+          this.dialog = false;
+          this.$emit('projectAdded');
+          this.$refs.form.reset();
+        })
       }
     },
   },
@@ -109,6 +119,54 @@ export default {
       formattedDate(){
           return this.due ? format(parseISO(this.due), 'do MMM yyyy') : ''
       }
-  }
+  },
+    watch: {
+      loader () {
+        const l = this.loader
+        this[l] = !this[l]
+
+        setTimeout(() => (this[l] = false), 3000)
+
+        this.loader = null
+      },
+    },
 };
 </script>
+<style scoped>
+  .custom-loader {
+    animation: loader 1s infinite;
+    display: flex;
+  }
+  @-moz-keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @-webkit-keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @-o-keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+</style>

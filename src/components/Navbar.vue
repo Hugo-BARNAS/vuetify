@@ -1,6 +1,30 @@
 <template>
   <nav>
-    <v-toolbar flat app style="background: #F5F5F5">
+     <v-snackbar
+      v-model="snackbar"
+      :multi-line="multiLine"
+      :timeout="4000" 
+      top color="cyan lighten-2"
+      class="white--text"
+    >
+      {{ text }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="white"
+          text
+          v-bind="attrs"
+          @click="snackbar = false"
+        >
+          CLOSE
+        </v-btn>
+      </template>
+    </v-snackbar>
+
+    <v-app-bar 
+    flat 
+    app 
+    style="background: #F5F5F5">
       <v-app-bar-nav-icon
         class="grey--text"
         @click="drawer = !drawer"
@@ -36,7 +60,7 @@
         <span class="grey--text">Sign Out</span>
         <v-icon right color="grey">mdi-exit-to-app</v-icon>
       </v-btn>
-    </v-toolbar>
+    </v-app-bar>
 
     <v-navigation-drawer absolute temporary v-model="drawer" class="primary">
       <v-layout column align-center>
@@ -47,7 +71,7 @@
           <p class="white--text subtitle-1 mt-1">Hugo BARNAS</p>
         </v-flex>
         <v-flex class="mt-4 mb-3">
-          <Popup />
+          <Popup @projectAdded="snackbar = true" />
         </v-flex>
       </v-layout>
       <v-list dense nav>
@@ -79,6 +103,9 @@ export default {
   },
   data() {
     return {
+      multiLine: true,
+      snackbar: false,
+      text: `Project added.`,
       drawer: false,
       items: [
         { title: "Dashboard", icon: "mdi-view-dashboard", route: "/" },
